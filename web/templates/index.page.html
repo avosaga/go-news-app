@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>Go News App</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+        <link rel="stylesheet" href="/assets/style.css" />
+    </head>
+    <body>
+        <main>
+            <nav class="navbar is-light">
+                <div class="navbar-brand">
+                    <a class="navbar-item" href="/">
+                        Go News App
+                    </a>
+                    <div class="navbar-burger" data-target="navbarExampleTransparentExample">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+                <div class="navbar-menu">
+                    <div class="navbar-start">
+                        <div class="navbar-item">
+                            <form action="/search" method="GET">
+                                <div class="field">
+                                    <p class="control has-icons-left">
+                                        <input autofocus
+                                               class="input is-rounded"
+                                               value="{{.Query}}"
+                                               placeholder="Enter a news topic"
+                                               type="search"
+                                               name="q"
+                                        />
+                                        <span class="icon is-small is-left">
+                                            <i class="fa fa-search" aria-hidden="true"></i>
+                                        </span>
+                                    </p>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="navbar-end">
+                        <div class="navbar-item">
+                            <div class="field is-grouped">
+                                <p class="control">
+                                    <a class="button is-primary" href="https://github.com/avosaga/go-news-app">
+                                        <span class="icon">
+                                            <i class="fa fa-github" aria-hidden="true"></i>
+                                        </span>
+                                        <span>Source Code</span>
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <section class="section">
+                <div class="container mb-5">
+                    {{if .Results}}
+                        <p>
+                            {{if (gt .Results.TotalResults 0)}}
+                                About <strong>{{.Results.TotalResults}}</strong> results were
+                                found. You are on page <strong>{{.CurrentPage}}</strong> of
+                                <strong> {{ .TotalPages }}</strong>.
+                            {{else if and (ne .Query "") (eq .Results.TotalResults 0)}}
+                                No results found for your query: <strong>{{.Query}}</strong>.
+                            {{end}}
+                        </p>
+                    {{ end }}
+                </div>
+                <div class="container">
+                    {{range.Results.Articles}}
+                        <div class="card mb-5">
+                            <div class="card-content">
+                                <div class="media">
+                                    <div class="media-left">
+                                        <figure class="image is-48x48">
+                                            <img src="{{.URLToImage}}">
+                                        </figure>
+                                    </div>
+                                    <div class="media-content">
+                                        <p class="title is-4">
+                                            <a target="_blank" rel="noreferrer noopener" href="{{.URL}}">
+                                                {{.Title}}
+                                            </a>
+                                        </p>
+                                        <p class="subtitle is-6">
+                                            {{.Source.Name}}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="content">
+                                    {{.Description}}
+
+                                    <p class="source mt-5">
+                                        <time>{{.FormatPublishedDate}}</time>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    {{end}}
+                </div>
+
+                <div class="pagination">
+                    {{if .}}
+                        {{if (gt .NextPage 2)}}
+                            <a href="/search?q={{.Query}}&page={{.PreviousPage}}" class="button">
+                                Previous
+                            </a>
+                        {{end}}
+
+                        {{if (ne .IsLastPage true)}}
+                            <a href="/search?q={{ .Query }}&page={{.NextPage}}" class="button">
+                                Next
+                            </a>
+                        {{end}}
+                    {{end}}
+                </div>
+            </section>
+        </main>
+    </body>
+</html>
