@@ -13,13 +13,12 @@ type Config struct {
 var config *Config
 
 func init() {
-	viper.AddConfigPath("config")
-	viper.SetConfigName("app")
-	viper.SetConfigType("env")
+	viper.SetConfigFile(".env")
+	viper.AutomaticEnv()
 	err := viper.ReadInConfig()
 
 	if err != nil {
-		panic("Error loading app.env config file: ")
+		panic("Error loading .env config file: ")
 	}
 }
 
