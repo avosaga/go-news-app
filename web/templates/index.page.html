@@ -23,27 +23,6 @@
                     </div>
                 </div>
                 <div class="navbar-menu">
-                    <div class="navbar-start">
-                        <div class="navbar-item">
-                            <form action="/search" method="GET">
-                                <div class="field">
-                                    <p class="control has-icons-left">
-                                        <input autofocus
-                                               class="input is-rounded"
-                                               value="{{.Query}}"
-                                               placeholder="Enter a news topic"
-                                               type="search"
-                                               name="q"
-                                        />
-                                        <span class="icon is-small is-left">
-                                            <i class="fa fa-search" aria-hidden="true"></i>
-                                        </span>
-                                    </p>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-
                     <div class="navbar-end">
                         <div class="navbar-item">
                             <div class="field is-grouped">
@@ -62,6 +41,25 @@
             </nav>
 
             <section class="section">
+                <div class="container mb-5">
+                    <form action="/search" method="GET">
+                        <div class="field">
+                            <p class="control has-icons-left">
+                                <input autofocus
+                                       class="input is-rounded"
+                                       value="{{.Query}}"
+                                       placeholder="Enter a news topic"
+                                       type="search"
+                                       name="q"
+                                />
+                                <span class="icon is-small is-left">
+                                            <i class="fa fa-search" aria-hidden="true"></i>
+                                        </span>
+                            </p>
+                        </div>
+                    </form>
+                </div>
+
                 <div class="container mb-5">
                     {{if .Results}}
                         <p>
